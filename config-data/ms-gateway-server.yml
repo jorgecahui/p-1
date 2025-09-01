@@ -29,7 +29,7 @@ spring:
             - id: ms-cliente
               uri: lb://ms-cliente
               predicates:
-                  - Path=/cliente/**  
+                  - Path=/clientes/**
 
               # Si tu servicio real no expone /categoria/...:
               # filters:

@@ -1,18 +1,21 @@
-package com.example.ms_cliente.entity;
+package com.example.ms_producto.Entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "clientes")
-public class Cliente {
+@Table(name = "productos")
+public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String nombre;
-    private String email;
-    private String direccion;
+    private Double precio;
+    private Integer stock;
+
+
+    private Integer categoriaId;
 }

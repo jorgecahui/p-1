@@ -1,9 +1,9 @@
 spring:
   application:
-    name: ms-cliente
+    name: ms-producto
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/ms_cliente
+    url: jdbc:postgresql://localhost:5432/ms_producto
     username: postgres
     password: "123456"
     driver-class-name: org.postgresql.Driver
@@ -32,4 +32,4 @@ eureka:
     hostname: localhost
 
 server:
-  port: 8085
+  port: 8081

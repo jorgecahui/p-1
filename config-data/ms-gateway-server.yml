@@ -26,10 +26,10 @@ spring:
               predicates:
                 - Path=/categoria/**
 
-            - id: ms-cliente
-              uri: lb://ms-cliente
+            - id: ms-producto
+              uri: lb://ms-producto
               predicates:
-                  - Path=/clientes/**
+                  - Path=/productos/**
 
               # Si tu servicio real no expone /categoria/...:
               # filters:

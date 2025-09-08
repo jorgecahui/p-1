@@ -3,21 +3,23 @@ package com.example.ms_producto.Service.Impl;
 import com.example.ms_producto.Entity.Producto;
 import com.example.ms_producto.Repository.ProductoRepository;
 import com.example.ms_producto.Service.ProductoService;
+import com.example.ms_producto.dto.CategoriaDto;
+import com.example.ms_producto.dto.ProductoDto;
+import com.example.ms_producto.feign.CatalogoFeign;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
 public class ProductoServiceImpl implements ProductoService {
 
-    private final ProductoRepository productoRepository;
-
-    public ProductoServiceImpl(ProductoRepository productoRepository) {
-        this.productoRepository = productoRepository;
-    }
+    @Autowired
+    private ProductoRepository productoRepository;
+    @Autowired
+    private CatalogoFeign catalogoFeign;
 
     @Override
     public List<Producto> listar() {
@@ -25,8 +27,16 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
-    public Optional<Producto> buscarPorId(Integer id) {
-        return productoRepository.findById(id);
+    public ProductoDto buscarPorId(Integer id) {
+        Producto producto = productoRepository.findById(id).get();
+        CategoriaDto catagoriaDto = catalogoFeign.buscarPorId(producto.getCategoriaId());
+        ProductoDto productoDto = new ProductoDto();
+        productoDto.setId(producto.getId());
+        productoDto.setNombre(producto.getNombre());
+        productoDto.setPrecio(producto.getPrecio());
+        productoDto.setStock(producto.getStock());
+        productoDto.setCategoria(catagoriaDto);
+        return productoDto;
     }
 
     @Override
@@ -47,3 +57,4 @@ public class ProductoServiceImpl implements ProductoService {
         productoRepository.deleteById(id);
     }
 }
+

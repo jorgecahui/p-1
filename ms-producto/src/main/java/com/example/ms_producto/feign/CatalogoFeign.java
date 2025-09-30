@@ -12,7 +12,7 @@ public interface CatalogoFeign {
     @CircuitBreaker(name = "categoriaListarPorIdCB", fallbackMethod = "fallbackCategoria")
     CategoriaDto buscarPorId(@PathVariable("id") Integer id);
 
-    default CategoriaDto fallbackProducto(Integer id, Exception e) {
+    default CategoriaDto fallbackCategoria(Integer id, Exception e) {
         CategoriaDto CategoriaDto = new CategoriaDto();
         CategoriaDto.setId(9000000);
         return CategoriaDto;

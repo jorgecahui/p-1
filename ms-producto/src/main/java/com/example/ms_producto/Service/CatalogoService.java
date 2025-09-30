@@ -19,7 +19,7 @@ public class CatalogoService {
         return catalogoFeign.buscarPorId(id);
     }
 
-    public CategoriaDto fallbackCategoria(Integer id, Throwable e) {
+    public CategoriaDto fallbackCategoria(Integer id) {
         CategoriaDto categoria = new CategoriaDto();
         categoria.setId(9000000);
         categoria.setNombre("Servicio Categoría no disponible");

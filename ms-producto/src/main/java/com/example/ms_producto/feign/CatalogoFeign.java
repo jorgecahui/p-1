@@ -16,6 +16,7 @@ public interface CatalogoFeign {
         CategoriaDto CategoriaDto = new CategoriaDto();
         CategoriaDto.setId(9000000);
         CategoriaDto.setNombre("Servicio Categoria no Disponible");
+        CategoriaDto.setDescripcion("Servicio Categoria no Disponible");
         return CategoriaDto;
     }
 

@@ -26,4 +26,17 @@ public class CatalogoService {
         categoria.setDescripcion("Fallback activado porque ms-catalogo no está disponible");
         return categoria;
     }
+
+    @CircuitBreaker(name = "guardarCategoriaCB", fallbackMethod = "fallbackGuardar")
+    public CategoriaDto guardar(CategoriaDto categoria) {
+        return catalogoFeign.guardar(categoria);
+    }
+
+    public CategoriaDto fallbackGuardar(CategoriaDto categoria, Throwable e) {
+        CategoriaDto fallback = new CategoriaDto();
+        fallback.setId(9000001);
+        fallback.setNombre("No se pudo validar/guardar la categoría");
+        fallback.setDescripcion("Servicio ms-catalogo no disponible");
+        return fallback;
+    }
 }

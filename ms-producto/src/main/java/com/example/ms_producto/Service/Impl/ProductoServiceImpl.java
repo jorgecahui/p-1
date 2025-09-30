@@ -43,8 +43,18 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     public ProductoDto guardar(Producto producto) {
+        CategoriaDto categoria = catalogoService.buscarPorId(producto.getCategoriaId());
+
         Producto guardado = productoRepository.save(producto);
-        return mapToDto(guardado);
+
+        ProductoDto dto = new ProductoDto();
+        dto.setId(guardado.getId());
+        dto.setNombre(guardado.getNombre());
+        dto.setPrecio(guardado.getPrecio());
+        dto.setStock(guardado.getStock());
+        dto.setCategoriaId(guardado.getCategoriaId());
+        dto.setCategoria(categoria);
+        return dto;
     }
 
     @Override

@@ -20,9 +20,9 @@ public class CatalogoService {
     }
 
     public CategoriaDto fallbackCategoria(Integer id, Throwable e) {
-        CategoriaDto categoriaDto = new CategoriaDto();
-        categoriaDto.setId(9000000);
-        categoriaDto.setNombre("Servicio Categoría no disponible");
-        return categoriaDto;
+        CategoriaDto categoria = new CategoriaDto();
+        categoria.setId(9000000);
+        categoria.setNombre("Servicio Categoría no disponible");
+        return categoria;
     }
 }

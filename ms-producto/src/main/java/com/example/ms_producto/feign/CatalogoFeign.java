@@ -15,6 +15,7 @@ public interface CatalogoFeign {
     default CategoriaDto fallbackCategoria(Integer id, Exception e) {
         CategoriaDto CategoriaDto = new CategoriaDto();
         CategoriaDto.setId(9000000);
+        CategoriaDto.setNombre("Servicio Categoria no Disponible");
         return CategoriaDto;
     }
 

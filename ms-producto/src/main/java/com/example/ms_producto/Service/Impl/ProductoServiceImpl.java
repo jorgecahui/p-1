@@ -2,6 +2,7 @@ package com.example.ms_producto.Service.Impl;
 
 import com.example.ms_producto.Entity.Producto;
 import com.example.ms_producto.Repository.ProductoRepository;
+import com.example.ms_producto.Service.CatalogoService;
 import com.example.ms_producto.Service.ProductoService;
 import com.example.ms_producto.dto.CategoriaDto;
 import com.example.ms_producto.dto.ProductoDto;
@@ -11,51 +12,65 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class ProductoServiceImpl implements ProductoService {
 
-    @Autowired
-    private ProductoRepository productoRepository;
-    @Autowired
-    private CatalogoFeign catalogoFeign;
+    private final ProductoRepository productoRepository;
+    private final CatalogoService catalogoService;
+
+    public ProductoServiceImpl(ProductoRepository productoRepository, CatalogoService catalogoService) {
+        this.productoRepository = productoRepository;
+        this.catalogoService = catalogoService;
+    }
 
     @Override
-    public List<Producto> listar() {
-        return productoRepository.findAll();
+    public List<ProductoDto> listar() {
+        return productoRepository.findAll()
+                .stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public ProductoDto buscarPorId(Integer id) {
-        Producto producto = productoRepository.findById(id).get();
-        CategoriaDto catagoriaDto = catalogoFeign.buscarPorId(producto.getCategoriaId());
-        ProductoDto productoDto = new ProductoDto();
-        productoDto.setId(producto.getId());
-        productoDto.setNombre(producto.getNombre());
-        productoDto.setPrecio(producto.getPrecio());
-        productoDto.setStock(producto.getStock());
-        productoDto.setCategoriaId(producto.getCategoriaId());
-        productoDto.setCategoria(catagoriaDto);
-        return productoDto;
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        return mapToDto(producto);
     }
 
     @Override
-    public Producto guardar(Producto producto) {
-        return productoRepository.save(producto);
+    public ProductoDto guardar(Producto producto) {
+        Producto guardado = productoRepository.save(producto);
+        return mapToDto(guardado);
     }
 
     @Override
-    public Producto actualizar(Producto producto) {
+    public ProductoDto actualizar(Producto producto) {
         if (!productoRepository.existsById(producto.getId())) {
             throw new RuntimeException("El producto con id " + producto.getId() + " no existe");
         }
-        return productoRepository.save(producto);
+        Producto actualizado = productoRepository.save(producto);
+        return mapToDto(actualizado);
     }
 
     @Override
     public void eliminar(Integer id) {
         productoRepository.deleteById(id);
+    }
+
+    private ProductoDto mapToDto(Producto producto) {
+        CategoriaDto categoriaDto = catalogoService.buscarPorId(producto.getCategoriaId());
+        ProductoDto dto = new ProductoDto();
+        dto.setId(producto.getId());
+        dto.setNombre(producto.getNombre());
+        dto.setPrecio(producto.getPrecio());
+        dto.setStock(producto.getStock());
+        dto.setCategoriaId(producto.getCategoriaId());
+        dto.setCategoria(categoriaDto);
+        return dto;
     }
 }
 

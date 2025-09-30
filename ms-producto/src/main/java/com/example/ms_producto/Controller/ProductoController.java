@@ -13,11 +13,14 @@ import java.util.List;
 @RequestMapping("/productos")
 public class ProductoController {
 
-    @Autowired
-    ProductoService productoService;
+    private final ProductoService productoService;
+
+    public ProductoController(ProductoService productoService) {
+        this.productoService = productoService;
+    }
 
     @GetMapping
-    public List<Producto> listar() {
+    public List<ProductoDto> listar() {
         return productoService.listar();
     }
 
@@ -27,15 +30,15 @@ public class ProductoController {
     }
 
     @PostMapping
-    public Producto guardar(@RequestBody Producto producto) {
+    public ProductoDto guardar(@RequestBody Producto producto) {
         return productoService.guardar(producto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Producto> actualizar(@PathVariable Integer id, @RequestBody Producto producto) {
+    public ResponseEntity<ProductoDto> actualizar(@PathVariable Integer id, @RequestBody Producto producto) {
         try {
             producto.setId(id);
-            Producto actualizado = productoService.actualizar(producto);
+            ProductoDto actualizado = productoService.actualizar(producto);
             return ResponseEntity.ok(actualizado);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
@@ -48,4 +51,5 @@ public class ProductoController {
         return ResponseEntity.noContent().build();
     }
 }
+
 

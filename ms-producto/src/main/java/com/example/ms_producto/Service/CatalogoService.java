@@ -8,15 +8,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class CatalogoService {
 
-    private final CatalogoFeign catalogoFeign;
+    private final CatalogoFeign CatalogoFeign;
 
     public CatalogoService(CatalogoFeign catalogoFeign) {
-        this.catalogoFeign = catalogoFeign;
+        this.CatalogoFeign = catalogoFeign;
     }
 
     @CircuitBreaker(name = "categoriaListarPorIdCB", fallbackMethod = "fallbackCategoria")
     public CategoriaDto buscarPorId(Integer id) {
-        return catalogoFeign.buscarPorId(id);
+        return CatalogoFeign.buscarPorId(id);
     }
 
     public CategoriaDto fallbackCategoria(Integer id, Throwable e) {

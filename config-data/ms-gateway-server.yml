@@ -36,3 +36,9 @@ spring:
               # Si tu servicio real no expone /categoria/...:
               # filters:
               #   - StripPrefix=1
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:7072/auth/jwks

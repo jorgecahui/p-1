@@ -36,7 +36,7 @@ public class CatalogoService {
         CategoriaDto fallback = new CategoriaDto();
         fallback.setId(9000001);
         fallback.setNombre("No se pudo validar/guardar la categoría");
-        fallback.setDescripcion("Servicio ms-catalogo no disponible");
+        fallback.setDescripcion("Servicio catalogo no disponible");
         return fallback;
     }
 }

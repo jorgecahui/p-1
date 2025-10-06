@@ -17,7 +17,7 @@ import java.util.Map;
 public class JwtService {
 
     private final RSAKey rsaKey;
-    private final long expirationMs = 3600_000; // 1 hora
+    private final long expirationMs = 180_000;
 
     public JwtService(RSAKey rsaKey) {
         this.rsaKey = rsaKey;
